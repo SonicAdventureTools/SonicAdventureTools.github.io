@@ -1,0 +1,245 @@
+<p align="justify">Proper character replacement in Sonic Adventure DX <b>will require some effort</b>.
+ Being an early Dreamcast title, the game does not support skinned / 
+weighted models, this means that characters are made of dozens of 
+different model parts. The leg/arm/shoe parts only appear connected 
+because the game <b>welds</b> them together every frame. This welding 
+process is what makes character replacement difficult, and why almost 
+every mod "cheat" by not replacing the leg/arm models, or by merging the
+ shoes into one object (that can hence no longer bends.)</p>
+<p align="justify">In this tutorial, we will learn how to do a proper 
+character replacement in an effort to improve the quality of future 
+mods. This will require for now <b>the need of a DLL mod</b>, this might
+ seem impossible for you but it's actually very easy to set up. If you 
+don't want to weld your model (please do!), you should avoid replacing 
+the leg/arm parts, or disable welds altogether (see below).</p>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>SA TOOLS (<a href="http://mm.reimuhakurei.net/SA%20Tools.7z" rel="nofollow">download</a>)</li>
+<li>Justin113D's SA Blender Addon (<a href="https://github.com/Justin113D/BlenderSASupport">download</a>, <a href="https://github.com/Justin113D/BlenderSASupport/wiki#how-to-create-model-mods-for-the-sonic-adventure-games">guide</a>)</li>
+<li>A DLL Mod for welding (<a class="internal present" href="https://github.com/X-Hax/SADXModdingGuide/wiki/Create-a-DLL-Mod">tutorial</a>)</li>
+</ul>
+<h1>
+<a id="user-content-getting-character-models" class="anchor" href="#getting-character-models" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Getting character models</h1>
+<p>SADX models are located in <code>CHRMODELS.DLL</code> (or <code>CHRMODELS_orig.DLL</code> if you have the Mod Loader), use SA TOOLS to extract them:</p>
+<ol>
+<li>If you've never used SA TOOLS yet, extract it wherever you want.</li>
+<li>Run <code>SAToolsHub</code> and follow the guide to set up a SADX project.</li>
+<li>Navigate to <code>figure\character_to_replace\models</code> in the software, and order by type for conveniency</li>
+</ol>
+<p>Once you're in the correct folder, you will notice:</p>
+<ul>
+<li>
+<code>.sa1mdl</code> files: these are models used by the character (main model, upgrade models, etc)</li>
+<li>
+<code>.saanim</code> files: these are motion data</li>
+</ul>
+<p>Since we're editing character models, we will need to edit most .sa1mdl files</p>
+<h1>
+<a id="user-content-editing-character-models" class="anchor" href="#editing-character-models" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Editing character models</h1>
+<p>I strongly recommend you edit models using Blender and the SA Addon. It allows you to open <code>.sa1mdl</code>
+ files directly in blender and save them as such. It also makes editing 
+faster as you don't need to extract each part into .obj and import them 
+manually in SAMDL. Just import in the blender, edit, export back. You 
+also loose less information with only one conversion.</p>
+<h2>
+<a id="user-content-main-model" class="anchor" href="#main-model" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Main model</h2>
+<p>Find the main model, it usually contains "kihonXX", for example sonic's main model is <code>s_kihon10_sonic.nja.sa1mdl</code></p>
+<p>Note that the game often has copies of several models to be used for 
+morphing and other stuff. For example, every character has a duplicate 
+head (<code>sonic_z</code>, <code>tails_head_z</code>...) which you will need to replace with the head from your main model, unmodified. Click <a href="http://info.sonicretro.org/SCHG:Sonic_Adventure_DX:_PC/CHRMODELS.DLL" rel="nofollow">here</a> for a list of what all the models are for.</p>
+<p>Please follow the <a href="https://github.com/Justin113D/BlenderSASupport/wiki/Ripping-models#importing-a-model-or-stage">addon guide</a> to import the model, its textures, and eventually animations.</p>
+<p>You can now edit the main model, the morph target models and all additional models to your liking.</p>
+<p>To change textures, navigate into <code>SADXPC Game Files</code> in the Tools Hub, and copy the texture pack you want (<code>SONIC.PVM</code> for example.) into your project's <code>system</code>
+ folder. You can then modify textures and use them in SAMDL. Note that 
+if you're using HD textures, you should save your texture pack as PVMX.</p>
+<h2>
+<a id="user-content-sonics-light-dash-aura" class="anchor" href="#sonics-light-dash-aura" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Sonic's Light Dash Aura</h2>
+<p>The colour of the Light Dash Aura model is overridden in code.</p>
+<p>If you want to edit it you need to hook the function that sets the material colour override like so:</p>
+<div class="snippet-clipboard-content position-relative overflow-auto"><pre><code>void __cdecl SetLSDColor()
+{
+        // #FF32A852 would translate to SetMaterialAndSpriteColor(1.0f, 0.19f, 0.65f, 0.32f);
+        // To get a float color (range 0-1): 32 in hexadecimal is 50, divided by 255 it gives us 0.19.
+	SetMaterialAndSpriteColor_Float(alpha, red, green, blue);
+}
+
+WriteCall(reinterpret_cast&lt;void*&gt;(0x4A1705), SetLSDColor);
+</code></pre><div class="zeroclipboard-container position-absolute right-0 top-0">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay" data-copy-feedback="Copied!" data-tooltip-direction="w" value="void __cdecl SetLSDColor()
+{
+        // #FF32A852 would translate to SetMaterialAndSpriteColor(1.0f, 0.19f, 0.65f, 0.32f);
+        // To get a float color (range 0-1): 32 in hexadecimal is 50, divided by 255 it gives us 0.19.
+	SetMaterialAndSpriteColor_Float(alpha, red, green, blue);
+}
+
+WriteCall(reinterpret_cast&lt;void*&gt;(0x4A1705), SetLSDColor);" tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2">
+    <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<h1>
+<a id="user-content-getting-the-models-ingame" class="anchor" href="#getting-the-models-ingame" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Getting the models ingame</h1>
+<p>Once you've edited all the models/textures you needed to change it is time to try out your mod.</p>
+<h2>
+<a id="user-content-disabling-welds" class="anchor" href="#disabling-welds" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Disabling welds</h2>
+<p>To test out your mod we need to disable welds (only if you changed a welded part: hand, arm, leg or shoe.)</p>
+<ol>
+<li>Create a <code>Codes.lst</code> file in your mod folder</li>
+<li>open <code>mod.ini</code> and add <code>Codes=Codes.lst</code>
+</li>
+<li>Open <code>Codes.lst</code> and choose one of the patches below</li>
+<li>Open the Mod Manager and click "save" to apply the code</li>
+</ol>
+<div class="snippet-clipboard-content position-relative overflow-auto"><pre><code>Patch "Disable Sonic Welds" Required
+write8 7D0B50 0xC3
+
+Patch "Disable Tails Welds" Required
+write8 7C6D80 0xC3
+
+Patch "Disable Knuckles Welds" Required
+write8 7C94D0 0xC3
+
+Patch "Disable Big Welds" Required
+write8 7CE860 0xC3
+
+Patch "Disable Gamma Welds" Required
+write8 7CB560 0xC3
+</code></pre><div class="zeroclipboard-container position-absolute right-0 top-0">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay" data-copy-feedback="Copied!" data-tooltip-direction="w" value="Patch &quot;Disable Sonic Welds&quot; Required
+write8 7D0B50 0xC3
+
+Patch &quot;Disable Tails Welds&quot; Required
+write8 7C6D80 0xC3
+
+Patch &quot;Disable Knuckles Welds&quot; Required
+write8 7C94D0 0xC3
+
+Patch &quot;Disable Big Welds&quot; Required
+write8 7CE860 0xC3
+
+Patch &quot;Disable Gamma Welds&quot; Required
+write8 7CB560 0xC3" tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2">
+    <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<h2>
+<a id="user-content-building-the-mod" class="anchor" href="#building-the-mod" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Building the mod</h2>
+<ol>
+<li>In Tools Hub, click the build button</li>
+<li>Select "characters" then "manual" and hit export.</li>
+<li>Copy the resulting files into your mod's folder.</li>
+</ol>
+<p>Now you can run the game and see the unwelded model in game.</p>
+<p>You should now improve your models, make sure everything is alright 
+with or without upgrade, and polish everything before welding. Try not 
+to modify the models after the welds are done: if the vertex order 
+change you'll have to remake the welds.</p>
+<h1>
+<a id="user-content-welding-the-models-together" class="anchor" href="#welding-the-models-together" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Welding the models together</h1>
+<p>This is where you need a DLL mod. We are going to link together every part that should appear linked.</p>
+<p>First of all, paste this anywhere in your code, outside of a 
+function. Replace "Sonic" by the name of another character if you're not
+ editing Sonic.</p>
+<div class="snippet-clipboard-content position-relative overflow-auto"><pre><code>void InitSonicWeldInfo_r();
+Trampoline InitSonicWeldInfo_t((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitShadowWeldInfo);
+void InitSonicWeldInfo_r() {
+	((decltype(InitSonicWeldInfo_r)*)InitSonicWeldInfo_t.Target())(); // call original function
+
+	//...
+}
+</code></pre><div class="zeroclipboard-container position-absolute right-0 top-0">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay" data-copy-feedback="Copied!" data-tooltip-direction="w" value="void InitSonicWeldInfo_r();
+Trampoline InitSonicWeldInfo_t((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitShadowWeldInfo);
+void InitSonicWeldInfo_r() {
+	((decltype(InitSonicWeldInfo_r)*)InitSonicWeldInfo_t.Target())(); // call original function
+
+	//...
+}" tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2">
+    <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<p>We are now hooking the function where the game sets up the weld information.</p>
+<p>One weld info contains the base model, modelA and modelB and a list of indices</p>
+<ul>
+<li>The base model is the first model (object 0 in general)</li>
+<li>modelA and modelB are the two models linked together</li>
+<li>the list of indices contains the vertex id of modelA that should be 
+linked to modelB, for each linked vertex (modelA, modelB, modelA, 
+modelB...)</li>
+</ul>
+<div class="snippet-clipboard-content position-relative overflow-auto"><pre><code>uint16_t Sonic_UpperLegIndices[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+</code></pre><div class="zeroclipboard-container position-absolute right-0 top-0">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay" data-copy-feedback="Copied!" data-tooltip-direction="w" value="uint16_t Sonic_UpperLegIndices[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};" tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2">
+    <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<p>In this example:</p>
+<ol>
+<li>the vertex 0 of model A (first leg model) is connected to vertex 2 of modelB (second leg model).</li>
+<li>the vertex 1 of model A (first leg model) is connected to vertex 3 of modelB (second leg model).</li>
+<li>the vertex 4 of model A (first leg model) is connected to vertex 6 of modelB (second leg model).</li>
+<li>the vertex 5 of model A (first leg model) is connected to vertex 7 of modelB (second leg model).</li>
+</ol>
+<p>You can see the vertex indices of a model can be seen in SAMDL and in Blender if you enable the dev features.</p>
+<p>The left upper leg weld is weld number 4 so it gives, in code:</p>
+<div class="snippet-clipboard-content position-relative overflow-auto"><pre><code>SonicWeldInfo[4].BaseModel = SONIC_OBJECTS[0];
+SonicWeldInfo[4].ModelA = SONIC_OBJECTS[12];
+SonicWeldInfo[4].ModelB = SONIC_OBJECTS[13];
+SonicWeldInfo[4].VertexPairCount = (uint8_t)(LengthOfArray(Sonic_UpperLegIndices_DC) / 2);
+SonicWeldInfo[4].WeldType = 2;
+SonicWeldInfo[4].anonymous_5 = 0;
+SonicWeldInfo[4].VertexBuffer = 0;
+SonicWeldInfo[4].VertIndexes = Sonic_UpperLegIndices_DC;
+</code></pre><div class="zeroclipboard-container position-absolute right-0 top-0">
+    <clipboard-copy aria-label="Copy" class="ClipboardButton btn js-clipboard-copy m-2 p-0 tooltipped-no-delay" data-copy-feedback="Copied!" data-tooltip-direction="w" value="SonicWeldInfo[4].BaseModel = SONIC_OBJECTS[0];
+SonicWeldInfo[4].ModelA = SONIC_OBJECTS[12];
+SonicWeldInfo[4].ModelB = SONIC_OBJECTS[13];
+SonicWeldInfo[4].VertexPairCount = (uint8_t)(LengthOfArray(Sonic_UpperLegIndices_DC) / 2);
+SonicWeldInfo[4].WeldType = 2;
+SonicWeldInfo[4].anonymous_5 = 0;
+SonicWeldInfo[4].VertexBuffer = 0;
+SonicWeldInfo[4].VertIndexes = Sonic_UpperLegIndices_DC;" tabindex="0" role="button">
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2">
+    <path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+</svg>
+      <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check js-clipboard-check-icon color-fg-success d-none m-2">
+    <path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path>
+</svg>
+    </clipboard-copy>
+  </div></div>
+<p>This links model 12 and 13 (<a href="http://info.sonicretro.org/SCHG:Sonic_Adventure_DX:_PC/CHRMODELS.DLL" rel="nofollow">see model list here</a>) together, using the vertices we set in onic_UpperLegIndices_DC.</p>
+<p>You can see example applications of welds in <a href="https://github.com/X-Hax/SADXModdingGuide/wiki/github.com/X-Hax/SADXModdingGuide/tree/master/Characters/Welds">this guide</a>, <a href="https://github.com/ItsEasyActually/SA1_Chars/blob/master/SA1_Chars/SA1_Chars.cpp#L369">SA1Chars</a>, <a href="https://github.com/kellsnc/ShadowSA1/blob/master/ShadowSA1/welds.cpp">ShadowSA1</a> or <a href="https://github.com/kawaiikaorichan/Female_Sonic/blob/master/Female_Sonic/Fem_Sonic.cpp#L62">Female Sonic</a>.</p>
+<p>If you fill a weld with zeros, it will be ignored, so you can weld your models one by one.</p>
+<h1>
+<a id="user-content-final-notes" class="anchor" href="#final-notes" aria-hidden="true"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Final notes</h1>
+<p>SA TOOLS exports INI files that you don't need. If you've only edited characters, you can remove all the inis except <code>chrmodels_orig.ini</code>, and remove them from your <code>mod.ini</code>.</p>
+<p>You can ask for help on the public discord, we will gladly help you with your welds!</p>
